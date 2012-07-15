@@ -1,6 +1,11 @@
 Meta:
 @author Szanto Peter
 
+Narrative:
+As a new user
+In order to log in
+I want to register 
+
 Scenario: Basic registration
 
 Given I am in <country>
