@@ -10,6 +10,8 @@ JBehave example application, using the following :
  	- @Given
  - Parametrised Scenarios
  - Parameter Injection
+ - Outcomes Table
+ - Tabular parameters
  
  to run the tests run MyStories as a JUnit test
 

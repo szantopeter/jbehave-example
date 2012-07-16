@@ -2,6 +2,9 @@ package org.szanto.steps;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 import org.hamcrest.Matchers;
 import org.jbehave.core.annotations.AsParameterConverter;
@@ -9,6 +12,8 @@ import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Named;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
+import org.jbehave.core.model.ExamplesTable;
+import org.jbehave.core.model.OutcomesTable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.szanto.registration.Member;
@@ -37,6 +42,7 @@ public class MySteps {
 	}
 	
 	private Member member = null;
+	private List<Member> memberList = new LinkedList<Member>();
 	private String errorMessage = null; 
 	
 	@When("2 I register $country with age <age>")
@@ -55,6 +61,7 @@ public class MySteps {
 		
 		try {
 			this.member = registrationManager.register(ageBand, member, country);
+			memberList.add(member);
 			errorMessage = null; 
 		} catch (RegistrationException e) {
 			errorMessage = e.getMessage();
@@ -71,6 +78,22 @@ public class MySteps {
 	@Then("I get a valid ID")
 	public void thenIGetAValidID() {
 		assertThat(member.getId(), Matchers.greaterThan(0));
-	}	
+	}
+	
+	@Then("The registered members will have the following ID and originating country $table")
+	public void checkMemberId(ExamplesTable inputTable) {
+		
+		OutcomesTable outcomes = new OutcomesTable();
+		
+		for (int i = 0; i < memberList.size(); i++) {
+			Map<String, String> row = inputTable.getRow(i);
+			
+			outcomes.addOutcome("Member ID " + i, ""+memberList.get(i).getId(), equalTo(row.get("ID")));
+			outcomes.addOutcome("Originating country" + i, ""+memberList.get(i).getOriginatingCountry(), equalTo(row.get("country")));
+			
+		}
+		
+		outcomes.verify();
+	}
 	
 }

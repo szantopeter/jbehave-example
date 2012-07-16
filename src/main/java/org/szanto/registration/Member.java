@@ -26,6 +26,7 @@ public class Member {
 	private String firstName;
 	private int id;
 	private Date dob;
+	private String originatingCountry;
 
 	public String getFirstName() {
 		
@@ -50,6 +51,14 @@ public class Member {
 
 	public void setDob(Date dob) {
 		this.dob = dob;
+	}
+
+	public String getOriginatingCountry() {
+		return originatingCountry;
+	}
+
+	public void setOriginatingCountry(String originatingCountry) {
+		this.originatingCountry = originatingCountry;
 	}
 	
 

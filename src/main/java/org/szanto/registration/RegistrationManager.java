@@ -30,6 +30,8 @@ public class RegistrationManager {
 				throw new RegistrationException("You must be a teen");
 			}
 		}
+		
+		member.setOriginatingCountry(country);
 
 		member.setId(id++);
 		
